@@ -261,7 +261,8 @@ a {
   font-weight: 800;
 }
 
-.area-badge {
+.area-badge,
+.availability-badge {
   display: inline-flex;
   align-items: center;
   min-height: 30px;
@@ -272,6 +273,11 @@ a {
   color: #fff7ec;
   font-size: 0.88rem;
   font-weight: 800;
+}
+
+.availability-badge {
+  border-color: rgba(231, 196, 169, 0.58);
+  background: rgba(184, 91, 50, 0.26);
 }
 
 .hero h1 {
@@ -587,6 +593,20 @@ a {
   font-size: 1.06rem;
 }
 
+.contact-section .availability-note {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  margin-top: 16px;
+  border: 1px solid rgba(255, 253, 248, 0.26);
+  border-radius: 999px;
+  padding: 5px 12px;
+  background: rgba(255, 253, 248, 0.1);
+  color: var(--white);
+  font-size: 0.98rem;
+  font-weight: 850;
+}
+
 .contact-actions {
   margin-top: 24px;
 }
@@ -621,6 +641,11 @@ a {
 .footer-inner span:first-child {
   color: var(--white);
   font-weight: 850;
+}
+
+.footer-inner span:last-child {
+  color: var(--white);
+  font-weight: 800;
 }
 
 .lightbox[hidden] {
