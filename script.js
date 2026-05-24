@@ -1,4 +1,62 @@
 (() => {
+  const header = document.querySelector(".header-inner");
+  const toggle = document.querySelector(".nav-toggle");
+  const menu = document.getElementById("primary-menu");
+
+  if (!header || !toggle || !menu) {
+    return;
+  }
+
+  const desktopQuery = window.matchMedia("(min-width: 768px)");
+
+  const setMenuState = (isOpen) => {
+    header.classList.toggle("is-menu-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Chiudi menu" : "Apri menu");
+  };
+
+  toggle.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    setMenuState(!isOpen);
+  });
+
+  header.addEventListener("click", (event) => {
+    if (event.target.closest(".brand") || event.target.closest(".header-menu a")) {
+      setMenuState(false);
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+    if (isOpen && !header.contains(event.target)) {
+      setMenuState(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+    if (event.key === "Escape" && isOpen) {
+      setMenuState(false);
+      toggle.focus();
+    }
+  });
+
+  const closeOnDesktop = () => {
+    if (desktopQuery.matches) {
+      setMenuState(false);
+    }
+  };
+
+  if (typeof desktopQuery.addEventListener === "function") {
+    desktopQuery.addEventListener("change", closeOnDesktop);
+  } else {
+    desktopQuery.addListener(closeOnDesktop);
+  }
+})();
+
+(() => {
   const links = Array.from(document.querySelectorAll("[data-lightbox]"));
   const lightbox = document.getElementById("lightbox");
 

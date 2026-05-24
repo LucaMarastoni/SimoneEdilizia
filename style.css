@@ -73,25 +73,22 @@ a {
 
 .header-inner {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 0 12px;
   align-items: center;
   width: 100%;
   max-width: 1152px;
-  min-height: 68px;
+  min-height: 64px;
   margin: 0 auto;
-  padding: 9px 12px 8px;
+  padding: 8px 12px;
 }
 
 .brand {
   display: inline-flex;
-  flex: 1 1 auto;
   align-items: center;
   gap: 9px;
-  min-height: 42px;
   min-width: 0;
-  padding-right: 118px;
   color: var(--ink);
   font-weight: 800;
   text-decoration: none;
@@ -136,14 +133,62 @@ a {
   border-radius: 2px;
 }
 
+.nav-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(52, 68, 61, 0.22);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.78);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.header-menu {
+  grid-column: 1 / -1;
+  max-height: 0;
+  overflow: hidden;
+  border-top: 1px solid transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: max-height 200ms ease, opacity 160ms ease, padding 200ms ease, border-color 200ms ease;
+}
+
+.header-inner.is-menu-open .header-menu {
+  max-height: 340px;
+  padding: 8px 0 4px;
+  border-top-color: rgba(38, 37, 34, 0.1);
+  opacity: 1;
+  visibility: visible;
+}
+
 .site-nav {
-  order: 3;
-  flex: 0 0 100%;
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding: 1px 0 3px;
-  scrollbar-width: none;
+  display: grid;
+  gap: 2px;
 }
 
 .site-nav::-webkit-scrollbar {
@@ -151,11 +196,12 @@ a {
 }
 
 .site-nav a {
-  flex: 0 0 auto;
-  border-radius: 999px;
-  padding: 6px 9px;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  border-radius: var(--radius);
+  padding: 10px 12px;
   color: var(--muted);
-  font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
 }
@@ -166,20 +212,17 @@ a {
 }
 
 .header-whatsapp {
-  position: absolute;
-  top: 9px;
-  right: 12px;
   display: inline-flex;
-  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 8px;
   border: 1px solid rgba(52, 68, 61, 0.28);
-  border-radius: 999px;
-  padding: 0 14px;
+  border-radius: var(--radius);
+  padding: 0 16px;
   background: var(--sage-dark);
   color: var(--white);
-  font-size: 0.92rem;
   font-weight: 800;
   text-decoration: none;
   white-space: nowrap;
@@ -194,7 +237,7 @@ a {
   isolation: isolate;
   display: flex;
   align-items: center;
-  min-height: calc(100svh - 104px);
+  min-height: calc(100svh - 64px);
   overflow: hidden;
   background: #2f332f;
 }
@@ -840,10 +883,24 @@ a {
     padding: 0 16px;
   }
 
+  .nav-toggle {
+    display: none;
+  }
+
+  .header-menu {
+    display: contents;
+    max-height: none;
+    overflow: visible;
+    border-top: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
   .site-nav {
-    grid-column: auto;
-    grid-row: auto;
-    order: 0;
+    display: flex;
+    grid-column: 2;
+    grid-row: 1;
+    gap: 6px;
     justify-content: center;
     padding: 0;
   }
@@ -851,18 +908,29 @@ a {
   .brand,
   .header-whatsapp {
     position: static;
-    grid-column: auto;
-    grid-row: auto;
-    order: 0;
+    grid-row: 1;
   }
 
   .brand {
+    grid-column: 1;
     min-height: 0;
-    padding-right: 0;
+  }
+
+  .header-whatsapp {
+    grid-column: 3;
+    width: auto;
+    min-height: 42px;
+    margin-top: 0;
+    border-radius: 999px;
+    padding: 0 14px;
+    font-size: 0.92rem;
   }
 
   .site-nav a {
+    min-height: auto;
+    border-radius: 999px;
     padding: 8px 10px;
+    font-size: 0.9rem;
   }
 
   .hero {
