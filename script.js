@@ -21,7 +21,11 @@
   });
 
   header.addEventListener("click", (event) => {
-    if (event.target.closest(".brand") || event.target.closest(".header-menu a")) {
+    if (
+      event.target.closest(".brand") ||
+      event.target.closest(".header-menu a") ||
+      event.target.closest(".header-call")
+    ) {
       setMenuState(false);
     }
   });
@@ -54,6 +58,33 @@
   } else {
     desktopQuery.addListener(closeOnDesktop);
   }
+})();
+
+(() => {
+  const slides = Array.from(document.querySelectorAll(".hero-image"));
+
+  if (slides.length < 2) {
+    return;
+  }
+
+  const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (reduceMotionQuery.matches) {
+    return;
+  }
+
+  let currentIndex = slides.findIndex((slide) => slide.classList.contains("is-active"));
+
+  if (currentIndex < 0) {
+    currentIndex = 0;
+    slides[currentIndex].classList.add("is-active");
+  }
+
+  window.setInterval(() => {
+    slides[currentIndex].classList.remove("is-active");
+    currentIndex = (currentIndex + 1) % slides.length;
+    slides[currentIndex].classList.add("is-active");
+  }, 4500);
 })();
 
 (() => {
